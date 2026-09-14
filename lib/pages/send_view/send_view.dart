@@ -1295,14 +1295,15 @@ class _SendViewState extends ConsumerState<SendView> {
               return;
             }
 
-          _setCurrentFee(fee, true);
-          setState(() {
-            _calculateFeesFuture = Future(() => fee);
-            if (isCustomFee.value) {
-              isCustomFee.value = false;
-            }
-          });
-        },
+            _setCurrentFee(fee, true);
+            setState(() {
+              _calculateFeesFuture = Future(() => fee);
+              if (isCustomFee.value) {
+                isCustomFee.value = false;
+              }
+            });
+          },
+        ),
       ),
     );
   }
