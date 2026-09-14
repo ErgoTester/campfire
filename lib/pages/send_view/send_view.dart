@@ -1276,7 +1276,7 @@ class _SendViewState extends ConsumerState<SendView> {
       ),
       builder: (_) => Padding(
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewPadding.bottom + 8,
+          bottom: MediaQuery.of(context).viewPadding.bottom,
         ),
         child: TransactionFeeSelectionSheet(
           walletId: walletId,
