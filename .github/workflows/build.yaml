@@ -19,8 +19,8 @@ jobs:
           channel: stable
 
       - name: Configure app
-        working-directory: ${{ github.workspace }}/scripts
         run: |
+          cd scripts
           echo "yes" | ./build_app.sh \
             -v "0.0.1-test" \
             -b "1" \
@@ -29,15 +29,42 @@ jobs:
             -d -s
 
       - name: Get dependencies
-        working-directory: ${{ github.workspace }}
         run: flutter pub get
 
+      - name: Create test API keys
+        run: |
+          cat > lib/external_api_keys.dart <<'EOF'
+          // Test/CI values only.
+          // No real API credentials are included.
+
+          const String kShopInBitAccessKey = "";
+          const String kShopInBitPartnerSecret = "";
+
+          const String kWizSwapApiKey = "";
+          const String kChangeNowApiKey = "";
+
+          const String kCakePayApiToken = "";
+
+          const String kNanoSwapRpcApiKey = "";
+
+          const String kCypherGoatApiKey = "";
+          const String kCypherGoatAffiliate = "";
+
+          const String kExolixApiKey = "";
+
+          const String kLetsExchangeToken = "";
+          const String kLetsExchangeId = "";
+
+          const String kNanswapApiKey = "";
+
+          const String kSimpleSwapApiKey = "";
+          EOF
+
       - name: Build debug APK
-        working-directory: ${{ github.workspace }}
         run: flutter build apk --debug
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
           name: campfire-android-debug
-          path: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
