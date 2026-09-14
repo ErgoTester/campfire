@@ -2126,11 +2126,15 @@ class _SendViewState extends ConsumerState<SendView> {
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(20),
                                             ),
+                                        ),
+                                          builder: (_) => Padding(
+                                            padding: EdgeInsets.only(
+                                              bottom: MediaQuery.of(context).viewPadding.bottom,
+                                            ),
+                                            child: DualBalanceSelectionSheet(
+                                              walletId: walletId,
+                                            ),
                                           ),
-                                          builder: (_) =>
-                                              DualBalanceSelectionSheet(
-                                                walletId: walletId,
-                                              ),
                                         );
                                       },
                                       child: Row(
