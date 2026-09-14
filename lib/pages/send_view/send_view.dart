@@ -1274,22 +1274,26 @@ class _SendViewState extends ConsumerState<SendView> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
-      builder: (_) => TransactionFeeSelectionSheet(
-        walletId: walletId,
-        amount:
-            (Decimal.tryParse(cryptoAmountController.text) ??
-                    ref.watch(pSendAmount)?.decimal ??
-                    Decimal.zero)
-                .toAmount(fractionDigits: coin.fractionDigits),
-        updateChosen: (String fee) {
-          if (fee == "custom") {
-            if (!isCustomFee.value) {
-              setState(() {
-                isCustomFee.value = true;
-              });
+      builder: (_) => Padding(
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewPadding.bottom + 8,
+        ),
+        child: TransactionFeeSelectionSheet(
+          walletId: walletId,
+          amount:
+              (Decimal.tryParse(cryptoAmountController.text) ??
+                      ref.watch(pSendAmount)?.decimal ??
+                      Decimal.zero)
+                  .toAmount(fractionDigits: coin.fractionDigits),
+          updateChosen: (String fee) {
+            if (fee == "custom") {
+              if (!isCustomFee.value) {
+                setState(() {
+                  isCustomFee.value = true;
+                });
+              }
+              return;
             }
-            return;
-          }
 
           _setCurrentFee(fee, true);
           setState(() {
@@ -1550,7 +1554,7 @@ class _SendViewState extends ConsumerState<SendView> {
                     ),
                     child: IntrinsicHeight(
                       child: Padding(
-                        padding: EdgeInsets.only(left: 4, right: 4, bottom: MediaQuery.of(context).padding.bottom + 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
