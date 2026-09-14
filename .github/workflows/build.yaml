@@ -23,7 +23,7 @@ jobs:
           cd scripts
           echo "yes" | ./build_app.sh \
             -v "0.0.1-test" \
-            -b "1" \
+            -b "${{ github.run_number }}" \
             -p android \
             -a campfire \
             -d -s
@@ -60,11 +60,11 @@ jobs:
           const String kSimpleSwapApiKey = "";
           EOF
 
-      - name: Build ARM64 debug APK
-        run: flutter build apk --debug --target-platform android-arm64
+      - name: Build ARM64 release APK
+        run: flutter build apk --release --target-platform android-arm64
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: campfire-android-debug-arm64-v8a
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: campfire-android-test-arm64
+          path: build/app/outputs/flutter-apk/app-release.apk
