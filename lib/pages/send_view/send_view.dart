@@ -1550,7 +1550,7 @@ class _SendViewState extends ConsumerState<SendView> {
                     ),
                     child: IntrinsicHeight(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        padding: EdgeInsets.only(left: 4, right: 4, bottom: MediaQuery.of(context).padding.bottom + 16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
