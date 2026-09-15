@@ -1,4 +1,4 @@
-name: Campfire Android Test
+name: Campfire Android Release
 
 on:
   workflow_dispatch:
@@ -22,11 +22,11 @@ jobs:
         run: |
           cd scripts
           echo "yes" | ./build_app.sh \
-            -v "0.0.1-test" \
+            -v "0.0.1" \
             -b "1" \
             -p android \
             -a campfire \
-            -d -s
+            -s
 
       - name: Get dependencies
         run: flutter pub get
@@ -60,11 +60,20 @@ jobs:
           const String kSimpleSwapApiKey = "";
           EOF
 
-      - name: Build ARM64 debug APK
-        run: flutter build apk --debug --target-platform android-arm64
+      - name: Create key.properties
+        run: |
+          cat > android/key.properties <<'EOF'
+          storePassword=campfire123
+          keyPassword=campfire123
+          keyAlias=campfire
+          storeFile=campfire-release.jks
+          EOF
+
+      - name: Build ARM64 release APK
+        run: flutter build apk --release --target-platform android-arm64
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: campfire-android-debug-arm64-v8a
-          path: build/app/outputs/flutter-apk/app-debug.apk
+          name: campfire-android-release-arm64-v8a
+          path: build/app/outputs/flutter-apk/app-release.apk
