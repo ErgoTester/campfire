@@ -18,6 +18,13 @@ jobs:
           flutter-version: '3.44.9'
           channel: stable
 
+      - name: Install required Rust toolchain
+        run: |
+          rustup toolchain install 1.89.0 --profile minimal
+          rustup default 1.89.0
+          rustc --version
+          cargo --version
+
       - name: Configure app
         run: |
           cd scripts
