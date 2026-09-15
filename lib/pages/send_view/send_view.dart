@@ -1267,33 +1267,31 @@ class _SendViewState extends ConsumerState<SendView> {
 
   late final bool hasFees;
 
-  void _onFeeSelectPressed() {
-    showModalBottomSheet<dynamic>(
-      backgroundColor: Colors.transparent,
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => Padding(
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewPadding.bottom,
-        ),
-        child: TransactionFeeSelectionSheet(
-          walletId: walletId,
-          amount:
-              (Decimal.tryParse(cryptoAmountController.text) ??
-                      ref.watch(pSendAmount)?.decimal ??
-                      Decimal.zero)
-                  .toAmount(fractionDigits: coin.fractionDigits),
-          updateChosen: (String fee) {
-            if (fee == "custom") {
-              if (!isCustomFee.value) {
-                setState(() {
-                  isCustomFee.value = true;
-                });
-              }
-              return;
+void _onFeeSelectPressed() {
+  showModalBottomSheet<dynamic>(
+    backgroundColor: Colors.transparent,
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (_) => SafeArea(
+      top: false,
+      child: TransactionFeeSelectionSheet(
+        walletId: walletId,
+        amount:
+            (Decimal.tryParse(cryptoAmountController.text) ??
+                    ref.watch(pSendAmount)?.decimal ??
+                    Decimal.zero)
+                .toAmount(fractionDigits: coin.fractionDigits),
+        updateChosen: (String fee) {
+          if (fee == "custom") {
+            if (!isCustomFee.value) {
+              setState(() {
+                isCustomFee.value = true;
+              });
             }
+            return;
+          }
 
             _setCurrentFee(fee, true);
             setState(() {
@@ -2127,10 +2125,8 @@ class _SendViewState extends ConsumerState<SendView> {
                                               top: Radius.circular(20),
                                             ),
                                         ),
-                                          builder: (_) => Padding(
-                                            padding: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context).viewPadding.bottom,
-                                            ),
+                                          builder: (_) => SafeArea(
+                                            top: false,
                                             child: DualBalanceSelectionSheet(
                                               walletId: walletId,
                                             ),
