@@ -1,4 +1,4 @@
-name: Campfire Android Release
+name: Campfire Android Test
 
 on:
   workflow_dispatch:
@@ -18,22 +18,15 @@ jobs:
           flutter-version: '3.44.9'
           channel: stable
 
-      - name: Install required Rust toolchain
-        run: |
-          rustup toolchain install 1.89.0 --profile minimal
-          rustup default 1.89.0
-          rustc --version
-          cargo --version
-
       - name: Configure app
         run: |
           cd scripts
           echo "yes" | ./build_app.sh \
-            -v "0.0.1" \
+            -v "0.0.1-test" \
             -b "1" \
             -p android \
             -a campfire \
-            -s
+            -d -s
 
       - name: Get dependencies
         run: flutter pub get
@@ -67,20 +60,11 @@ jobs:
           const String kSimpleSwapApiKey = "";
           EOF
 
-      - name: Create key.properties
-        run: |
-          cat > android/key.properties <<'EOF'
-          storePassword=campfire123
-          keyPassword=campfire123
-          keyAlias=campfire
-          storeFile=campfire-release.jks
-          EOF
-
-      - name: Build ARM64 release APK
-        run: flutter build apk --release --target-platform android-arm64
+      - name: Build ARM64 debug APK
+        run: flutter build apk --debug --target-platform android-arm64
 
       - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
-          name: campfire-android-release-arm64-v8a
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: campfire-android-debug-arm64-v8a
+          path: build/app/outputs/flutter-apk/app-debug.apk
