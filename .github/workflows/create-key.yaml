@@ -1,0 +1,28 @@
+name: Create Campfire Signing Key
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-key:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Generate keystore
+        run: |
+          keytool -genkeypair \
+            -v \
+            -keystore campfire-release.jks \
+            -alias campfire \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass campfire123 \
+            -keypass campfire123 \
+            -dname "CN=Campfire, OU=Personal, O=Campfire, L=Unknown, ST=Unknown, C=US"
+
+      - name: Upload keystore
+        uses: actions/upload-artifact@v7
+        with:
+          name: campfire-signing-key
+          path: campfire-release.jks
