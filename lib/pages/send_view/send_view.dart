@@ -1267,14 +1267,16 @@ class _SendViewState extends ConsumerState<SendView> {
 
   late final bool hasFees;
 
-  void _onFeeSelectPressed() {
-    showModalBottomSheet<dynamic>(
-      backgroundColor: Colors.transparent,
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (_) => TransactionFeeSelectionSheet(
+void _onFeeSelectPressed() {
+  showModalBottomSheet<dynamic>(
+    backgroundColor: Colors.transparent,
+    context: context,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (_) => SafeArea(
+      top: false,
+      child: TransactionFeeSelectionSheet(
         walletId: walletId,
         amount:
             (Decimal.tryParse(cryptoAmountController.text) ??
@@ -1291,14 +1293,15 @@ class _SendViewState extends ConsumerState<SendView> {
             return;
           }
 
-          _setCurrentFee(fee, true);
-          setState(() {
-            _calculateFeesFuture = Future(() => fee);
-            if (isCustomFee.value) {
-              isCustomFee.value = false;
-            }
-          });
-        },
+            _setCurrentFee(fee, true);
+            setState(() {
+              _calculateFeesFuture = Future(() => fee);
+              if (isCustomFee.value) {
+                isCustomFee.value = false;
+              }
+            });
+          },
+        ),
       ),
     );
   }
@@ -2121,11 +2124,13 @@ class _SendViewState extends ConsumerState<SendView> {
                                             borderRadius: BorderRadius.vertical(
                                               top: Radius.circular(20),
                                             ),
+                                        ),
+                                          builder: (_) => SafeArea(
+                                            top: false,
+                                            child: DualBalanceSelectionSheet(
+                                              walletId: walletId,
+                                            ),
                                           ),
-                                          builder: (_) =>
-                                              DualBalanceSelectionSheet(
-                                                walletId: walletId,
-                                              ),
                                         );
                                       },
                                       child: Row(
