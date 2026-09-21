@@ -7,7 +7,7 @@ APP_BUILD_PLATFORM=$1
 
 export NEW_NAME="Campfire"
 if [[ "$APP_BUILD_PLATFORM" != "ios" ]]; then
-  export NEW_APP_ID="com.cypherstack.campfire"
+  export NEW_APP_ID="com.cypherstack.campfire.test"
 else
   # for some reason this was different in the old campfire code for ios
   export NEW_APP_ID="com.cypherstack.campfirefirowallet"
